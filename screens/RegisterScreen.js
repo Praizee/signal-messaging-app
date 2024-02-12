@@ -1,13 +1,15 @@
-import { StyleSheet, View, Text, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Button, Input, Image } from "@rneui/themed";
+import { Button, Input, Image, Text } from "@rneui/themed";
 
-const LoginScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation }) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
-  const signIn = () => {};
+  const register = () => {};
 
   return (
     <KeyboardAvoidingView
@@ -15,18 +17,29 @@ const LoginScreen = ({ navigation }) => {
       className="flex-1 items-center justify-center p-10 bg-white"
     >
       <StatusBar style="light" />
+
+      <Text h3 style={{ marginBottom: 50 }}>
+        Create a Signal acount
+      </Text>
+
       <Image
         source={{
           uri: "https://seeklogo.com/images/S/signal-logo-20A1616F60-seeklogo.com.png",
-          // uri: "https://blog.mozilla.org/internetcitizen/files/2018/08/signal-logo.png",
         }}
-        style={{ width: 150, height: 150 }}
+        style={{ width: 80, height: 80 }}
       />
 
       <View className="w-[300] mt-10">
         <Input
-          placeholder="Email"
+          placeholder="Full Name"
           autoFocus
+          type="text"
+          value={name}
+          keyboardType="default"
+          onChangeText={(text) => setName(text)}
+        />
+        <Input
+          placeholder="Email"
           type="email"
           value={email}
           keyboardType="email-address"
@@ -40,21 +53,35 @@ const LoginScreen = ({ navigation }) => {
           keyboardType="default"
           onChangeText={(text) => setPassword(text)}
         />
+        <Input
+          placeholder="Profile Picture URL (optional)"
+          type="text"
+          keyboardType="url"
+          secureTextEntry
+          value={imageUrl}
+          onChangeText={(text) => setImageUrl(text)}
+          onSubmitEditing={register}
+        />
       </View>
 
-      <Button title="Login" onPress={signIn} containerStyle={styles.button} />
       <Button
         title="Register"
+        onPress={register}
+        raised
+        containerStyle={styles.button}
+      />
+      <Button
+        title="Login"
         type="outline"
         containerStyle={styles.button}
-        onPress={() => navigation.navigate("Register")}
+        onPress={() => navigation.navigate("Login")}
       />
-      <View style={{ height: 50 }} />
+      <View style={{ height: 100 }} />
     </KeyboardAvoidingView>
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   button: {
