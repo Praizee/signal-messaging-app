@@ -1,7 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// import * as firebase from "firebase/app";
+// import "firebase/auth";
+import { getAuth } from "firebase/auth"; // Import getAuth function
+// import "firebase/firestore";
+import { getFirestore } from "firebase/firestore"; // Import getFirestore function
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -13,8 +16,23 @@ const firebaseConfig = {
   appId: "1:725930019503:web:bc5cde20454763649fa25a",
 };
 
-// Initialize Firebase
+// let app;
+// if (firebase.apps.length === 0) {
+//   app = initializeApp(firebaseConfig);
+//   // app = firebase.initializeApp(firebaseConfig);
+// } else {
+//   app = firebase.app();
+// }
+
 const app = initializeApp(firebaseConfig);
+
+// const db = app.firestore();
+const db = getFirestore(app); // Initialize Firestore using getFirestore function
+// const auth = app.auth();
+const auth = getAuth(app); // Initialize Authentication using getAuth function
+
+export { db, auth };
+// Initialize Firebase
 
 // # Deploy to Firebase Hosting
 // You can deploy now or later. To deploy now, open a terminal window, then navigate to or create a root directory for your web app.
