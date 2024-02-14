@@ -1,7 +1,8 @@
 import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Button, Input, Image, Text } from "@rneui/themed";
+import { auth, db } from "../firebase"; // Import auth and db directly
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -9,7 +10,30 @@ const RegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
-  const register = () => {};
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerBackTitle: "Back to Login",
+    });
+  }, [navigation]);
+
+  const register = () => {
+    console.log(auth);
+
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        authUser.user.updateProfile({
+          displayName: name,
+          photoURL:
+            imageUrl ||
+            "https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg",
+        });
+      })
+      .catch((error) => alert(error.message));
+    // .catch((error) => {
+    //   console.error("Error creating user:", error); // Log any errors
+    // });
+  };
 
   return (
     <KeyboardAvoidingView
@@ -57,7 +81,6 @@ const RegisterScreen = ({ navigation }) => {
           placeholder="Profile Picture URL (optional)"
           type="text"
           keyboardType="url"
-          secureTextEntry
           value={imageUrl}
           onChangeText={(text) => setImageUrl(text)}
           onSubmitEditing={register}
@@ -70,12 +93,12 @@ const RegisterScreen = ({ navigation }) => {
         raised
         containerStyle={styles.button}
       />
-      <Button
+      {/* <Button
         title="Login"
         type="outline"
         containerStyle={styles.button}
         onPress={() => navigation.navigate("Login")}
-      />
+      /> */}
       <View style={{ height: 100 }} />
     </KeyboardAvoidingView>
   );
