@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Button, Input } from "@rneui/themed";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { db } from "../firebase";
 
 const AddChatScreen = ({ navigation }) => {
-  const [Input, setInput] = useState("");
+  const [input, setInput] = useState("");
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -32,8 +32,7 @@ const AddChatScreen = ({ navigation }) => {
   };
 
   return (
-    <View className="p-32 h-full bg-white">
-      <Text>AddChatScreen</Text>
+    <View className="p-[32] h-full bg-white">
       <Input
         placeholder="Enter a chat name"
         value={input}
@@ -43,7 +42,7 @@ const AddChatScreen = ({ navigation }) => {
           <Icon name="wechat" type="antdesign" size={24} color="black" />
         }
       />
-      <Button onPress={CreateChat} title="Create new chat" />
+      <Button disabled={!input} onPress={CreateChat} title="Create new chat" />
     </View>
   );
 };
